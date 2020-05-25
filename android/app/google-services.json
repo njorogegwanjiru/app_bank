@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "278873950890",
+    "firebase_url": "https://bank-a9f0c.firebaseio.com",
+    "project_id": "bank-a9f0c",
+    "storage_bucket": "bank-a9f0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278873950890:android:93358481bf093c08df9ed3",
+        "android_client_info": {
+          "package_name": "com.mobilebanking.app_bank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278873950890-cr37hvrovmi11ev5g4fogr77c8jtqv1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpwIcytLtaqi7BCQQqjTXK0umVDWfHhdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278873950890-cr37hvrovmi11ev5g4fogr77c8jtqv1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
