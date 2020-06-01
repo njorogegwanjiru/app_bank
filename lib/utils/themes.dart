@@ -39,8 +39,10 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: Colors.white,
       onPrimary: Colors.white,
-      primaryVariant: Colors.white38,
+      primaryVariant: Colors.white70,
       secondary: Color(0xFF5036D5),
+      secondaryVariant: Colors.black,
+      surface: Colors.white70
     ),
     cardTheme: CardTheme(
       color: Colors.white70,
@@ -49,16 +51,17 @@ class AppTheme {
       color: Colors.white54,
     ),
     textTheme: TextTheme(
+
       title: TextStyle(
         color: Colors.black,
         fontSize: 20.0,
       ),
       subtitle: TextStyle(
-        color: Colors.black54,
+        color: Colors.black,
         fontSize: 18.0,
       ),
       subhead: TextStyle(
-        color: Colors.black,
+        color: Colors.blue,
         fontSize: 16.0,
       ),
       display1: TextStyle(
@@ -69,6 +72,16 @@ class AppTheme {
         color: Colors.black54,
         fontSize: 16.0,
       ),
+      display3: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontSize: 22.0,
+      ),
+      display4: TextStyle(
+        color: Colors.white,
+        fontSize: 24.0,
+        fontWeight: FontWeight.bold
+      )
     ),
   );
 

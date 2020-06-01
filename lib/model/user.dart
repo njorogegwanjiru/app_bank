@@ -10,7 +10,7 @@ class User {
   User(this.username, this.idNumber, this.mobileNumber, this.fullNames);
 
   User.fromSnapshot(DataSnapshot snapshot)
-      : key = snapshot.key,
+      : key = snapshot.value["Uid"],
         username = snapshot.value["username"],
         idNumber = snapshot.value["idNumber"],
         mobileNumber = snapshot.value["MobileNumber"],

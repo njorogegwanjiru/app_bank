@@ -1,11 +1,9 @@
-import 'package:app_bank/Dashboard.dart';
-import 'package:app_bank/auth/auth.dart';
-import 'package:app_bank/userAPI.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_bank/utils/widgets.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import 'model/user.dart';
+import 'Dashboard.dart';
 
 class CreateProfile extends StatefulWidget {
   @override
@@ -13,134 +11,110 @@ class CreateProfile extends StatefulWidget {
 }
 
 class _CreateProfileState extends State<CreateProfile> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
+  final usernameController = TextEditingController();
+  final idController = TextEditingController();
+  final pin1Controller = TextEditingController();
+  final pin2Controller = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _agreedToTOS = true;
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
-  FirebaseUser fuser;
-  TextEditingController usernameController, idController;
+  bool _loading = false;
+
+  final _database = FirebaseDatabase.instance;
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.color,
         title: Text('Create Profile'),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height - 150,
-          margin: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Card(
-              color: Theme.of(context).cardTheme.color,
-              child: Padding(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Theme.of(context).colorScheme.secondary),
-                    ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TextFormField(
-                            controller: usernameController,
-                            keyboardType: TextInputType.text,
-                            decoration: const InputDecoration(
-                              labelText: 'Username',
-                            ),
-                            validator: (String value) {
-                              if (value.trim().isEmpty) {
-                                return 'Username is required';
-                              }
-                              return null;
-                            },
-
-                          ),
-                          const SizedBox(height: 16.0),
-                          TextFormField(
-                            controller: idController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'ID Number',
-                            ),
-                            validator: (String value) {
-                              if (value.trim().isEmpty) {
-                                return 'ID Number is required';
-                              }
-                              return null;
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: Row(
-                              children: <Widget>[
-                                Checkbox(
-                                  value: _agreedToTOS,
-                                  onChanged: _setAgreedToTOS,
-                                ),
-                                Flexible(
-                                  child: GestureDetector(
-                                    onTap: () => _setAgreedToTOS(!_agreedToTOS),
-                                    child: const Text(
-                                      'I agree to the Terms of Services and Privacy Policy',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Spacer(),
-                              OutlineButton(
-                                highlightedBorderColor: Colors.black,
-                                onPressed: _submittable() ? _submit : null,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 30, vertical: 10),
-                                  child: Text(
-                                    'Register',
-                                    style: Theme.of(context).textTheme.subhead,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  "Fill your information",
+                  style: Theme.of(context).textTheme.display3,
                 ),
               ),
-            ),
+              SingleChildScrollView(
+                child: Container(
+                  color: Theme.of(context).colorScheme.primaryVariant,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              getTextFormField(usernameController, "Username",
+                                  "Username Required", TextInputType.text),
+                              getTextFormField(idController, "ID Number",
+                                  "ID Required", TextInputType.number),
+                              getTextFormField(pin1Controller, "Set Pin",
+                                  "Pin Required", TextInputType.number),
+                              getTextFormField(
+                                  pin2Controller,
+                                  "Confirm Pin",
+                                  "Confirmation Required",
+                                  TextInputType.number),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                      value: _agreedToTOS,
+                                      onChanged: _setAgreedToTOS,
+                                    ),
+                                    Flexible(
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            _setAgreedToTOS(!_agreedToTOS),
+                                        child: const Text(
+                                          'I agree to the Terms of Services and Privacy Policy',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: _loading
+                                      ? CircularProgressIndicator()
+                                      : getOutlineButton(
+                                          "SUBMIT",
+                                          (_submittable()
+                                              ? () {
+                                                  _submit();
+                                                }
+                                              : null), Theme.of(context).textTheme.subtitle)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  bool _submittable() {
-    return _agreedToTOS;
-  }
-
-  void _submit() {
-    if (_formKey.currentState.validate()) {
-      _updateUser(User(usernameController.text, idController.text, "", "" ));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DashBoard()));
-      print('Form submitted');
-    }
   }
 
   void _setAgreedToTOS(bool newValue) {
@@ -149,20 +123,44 @@ class _CreateProfileState extends State<CreateProfile> {
     });
   }
 
-  _updateUser(User user) {
-    FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-      fuser = user;
-    });
-    if (user != null) {
-      _database
-          .reference()
-          .child("Members")
-          .child("MemberIdNo")
-          .child(fuser.uid)
-          .update({
-        "username": user.username,
-        "idNumber": user.idNumber,
+  bool _submittable() {
+    return _agreedToTOS;
+  }
+
+  _submit() {
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        _loading = true;
       });
+      _updateUser();
     }
+  }
+
+  _updateUser() async {
+    await _database
+        .reference()
+        .child("Members")
+        .child("MemberIdNo")
+        .child(idController.text)
+        .update({
+      "UserName": usernameController.text,
+      "Pin": pin1Controller.text
+    }).then((_) {
+      setState(() {
+        _loading = false;
+      });
+      final snackBar = (SnackBar(content: Text('Successfully Added')));
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => DashBoard()));
+    }).catchError((onError) {
+      final errSnackBar = (SnackBar(content: Text(onError.toString())));
+      _scaffoldKey.currentState.showSnackBar(errSnackBar);
+    });
+
+    idController.clear();
+    usernameController.clear();
+    pin1Controller.clear();
+    pin2Controller.clear();
   }
 }

@@ -92,12 +92,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Center(
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/images/onboarding0.png',
+                              child: Container(
+                                height: MediaQuery.of(context).size.height/3,
+                                width: MediaQuery.of(context).size.width/2,
+                                decoration: BoxDecoration(
+                                  borderRadius: (BorderRadius.circular(50)),
                                 ),
-                                height: 300.0,
-                                width: 300.0,
+                                child: Image(
+                                  image: AssetImage(
+                                    'assets/images/flake.png',
+                                  ),
+                                  height: 300.0,
+                                  width: 300.0,
+                                ),
                               ),
                             ),
                             SizedBox(height: 30.0),
@@ -127,12 +134,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Center(
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/images/onboarding0.png',
+                              child: Container(
+                                height: MediaQuery.of(context).size.height/3,
+                                width: MediaQuery.of(context).size.width/2,
+                                decoration: BoxDecoration(
+                                  borderRadius: (BorderRadius.circular(50)),
                                 ),
-                                height: 300.0,
-                                width: 300.0,
+                                child: Image(
+                                  image: AssetImage(
+                                    'assets/images/flake.png',
+                                  ),
+                                  height: 300.0,
+                                  width: 300.0,
+                                ),
                               ),
                             ),
                             SizedBox(height: 30.0),
@@ -162,12 +176,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Center(
-                              child: Image(
-                                image: AssetImage(
-                                  'assets/images/onboarding0.png',
+                              child: Container(
+                                height: MediaQuery.of(context).size.height/3,
+                                width: MediaQuery.of(context).size.width/2,
+                                decoration: BoxDecoration(
+                                  borderRadius: (BorderRadius.circular(50)),
                                 ),
-                                height: 300.0,
-                                width: 300.0,
+                                child: Image(
+                                  image: AssetImage(
+                                    'assets/images/flake.png',
+                                  ),
+                                  height: 300.0,
+                                  width: 300.0,
+                                ),
                               ),
                             ),
                             SizedBox(height: 30.0),

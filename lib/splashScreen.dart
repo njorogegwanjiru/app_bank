@@ -45,15 +45,24 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(40.0),
-      child: Center(
-        child: Image(
-          image: AssetImage(
-            'assets/images/onboarding0.png',
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height/4,
+            width: MediaQuery.of(context).size.width/2,
+            decoration: BoxDecoration(
+              borderRadius: (BorderRadius.circular(50)),
+            ),
+            child: Image(
+              image: AssetImage(
+                'assets/images/flake.png',
+              ),
+              height: 300.0,
+              width: 300.0,
+            ),
           ),
-          height: 300.0,
-          width: 300.0,
         ),
       ),
     );

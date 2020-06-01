@@ -53,11 +53,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController _codeController = TextEditingController();
 
-  /*
-   *  This will be the index, we will modify each time the user selects a new country from the dropdown list(dialog),
-   *  As a default case, we are using Kenya as default country, index = 44
-   */
-  int _selectedCountryIndex = 44;
+  int _selectedCountryIndex = 113;
 
   bool _isCountriesDataFormed = false;
 
@@ -119,7 +115,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
             print("Error");
           }
 
-          //This callback would gets called when verification is done automaticlly
+          //This callback gets called when verification is done automatically
         },
         verificationFailed: (AuthException exception) {
           print(exception);
@@ -152,12 +148,20 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         });
       }
     });
-
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Registration"),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: _getBody(),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _getBody(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -175,30 +179,21 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: _fixedPadding, vertical: 5),
-            child: Text(
-              'Registration',
-              textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.subhead,
-            ),
-          ),
-          Padding(
             padding: EdgeInsets.only(top: _fixedPadding, left: _fixedPadding),
-            child: PhoneAuthWidgets.subTitle('Select your country'),
+            child: Text('Select your country', style: Theme.of(context).textTheme.subtitle,),
           ),
 
           Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: _fixedPadding, vertical: 5),
-            child: PhoneAuthWidgets.selectCountryDropDown(
-                countries[_selectedCountryIndex], showCountries),
+            child: Widgets.selectCountryDropDown(
+                countries[_selectedCountryIndex], showCountries, Theme.of(context).textTheme.subtitle),
           ),
 
           //  Subtitle for Enter your phone
           Padding(
             padding: EdgeInsets.only(top: 10.0, left: _fixedPadding),
-            child: PhoneAuthWidgets.subTitle('Enter your phone'),
+            child: Text('Enter your phone', style: Theme.of(context).textTheme.subtitle,),
           ),
           //  PhoneNumber TextFormFields
           Padding(
@@ -206,63 +201,34 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
                 left: _fixedPadding,
                 right: _fixedPadding,
                 bottom: _fixedPadding),
-            child: PhoneAuthWidgets.phoneNumberField(_phoneNumberController,
-                countries[_selectedCountryIndex].dialCode),
+            child: Widgets.phoneNumberField(_phoneNumberController,
+                countries[_selectedCountryIndex].dialCode, Theme.of(context).textTheme.subtitle,Theme.of(context).textTheme.subtitle ),
           ),
 
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(width: _fixedPadding),
-              Expanded(
-                child: RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(children: [
-                      TextSpan(
-                        text: 'Your ',
-                        style: subtitleStyle,
-                      ),
-                      TextSpan(
-                        text: 'One Time Password',
-                        style: subtitleStyle,
-                      ),
-                      TextSpan(
-                          text:
-                              ' will be sent to this mobile number for verification.',
-                          style: subtitleStyle),
-                    ])),
+              Flexible(
+                flex: 1,
+                child: Text(
+                   "Your One Time Password will be sent to this mobile number for verification.",
+                          style: Theme.of(context).textTheme.subtitle),
+
               ),
               SizedBox(width: _fixedPadding),
             ],
           ),
 
-          /*
-           *  Button: OnTap of this, it appends the dial code and the phone number entered by the user to send OTP,
-           *  knowing once the OTP has been sent to the user - the user will be navigated to a new Screen,
-           *  where is asked to enter the OTP he has received on his mobile (or) wait for the system to automatically detect the OTP
-           */
-          SizedBox(height: _fixedPadding * 1.5),
-          RaisedButton(
-            elevation: 16.0,
-            onPressed: () {
-              final phone =
-                  countries[_selectedCountryIndex].dialCode.toString().trim() +
-                      _phoneNumberController.text.trim();
+          SizedBox(height: MediaQuery.of(context).size.height*0.1),
+          getOutlineButton("SEND OTP", () {
+            final phone =
+                countries[_selectedCountryIndex].dialCode.toString().trim() +
+                    _phoneNumberController.text.trim();
 
-              loginUser(phone, context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'SEND OTP',
-                style: TextStyle(
-                    color: widget.cardBackgroundColor, fontSize: 18.0),
-              ),
-            ),
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-          ),
+            loginUser(phone, context);
+          }, Theme.of(context).textTheme.subtitle),
+//
         ],
       );
 
@@ -286,10 +252,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         barrierDismissible: false);
   }
 
-  /*
-   *  This will be the listener for searching the query entered by user for their country, (dialog pop-up),
-   *  searches for the query and returns list of countries matching the query by adding the results to the sink of _countriesStream
-   */
+
   searchCountries() {
     String query = _searchCountryController.text;
     if (query.length == 0 || query.length == 1) {
@@ -312,13 +275,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
     }
   }
 
-  /*
-   * Child for Dialog
-   * Contents:
-   *    SearchCountryTextFormField
-   *    StreamBuilder
-   *      - Shows a list of countries
-   */
+
   Widget searchAndPickYourCountryHere() => WillPopScope(
         onWillPop: () => Future.value(false),
         child: Dialog(
@@ -333,7 +290,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   //  TextFormField for searching country
-                  PhoneAuthWidgets.searchCountry(_searchCountryController),
+                  Widgets.searchCountry(_searchCountryController),
 
                   //  Returns a list of Countries that will change according to the search query
                   SizedBox(
@@ -353,7 +310,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
                                     itemCount: snapshot.data.length,
                                     itemBuilder:
                                         (BuildContext context, int i) =>
-                                            PhoneAuthWidgets.selectableWidget(
+                                            Widgets.selectableWidget(
                                                 snapshot.data[i],
                                                 (Country c) =>
                                                     selectThisCountry(c)),
@@ -373,12 +330,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         ),
       );
 
-  /*
-   *  This callback is triggered when the user taps(selects) on any country from the available list in dialog
-   *    Resets the search value
-   *    Close the stream & sink
-   *    Updates the selected Country and adds dialCode as prefix according to the user's selection
-   */
+
   void selectThisCountry(Country country) {
     print(country);
     _searchCountryController.clear();
