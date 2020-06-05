@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:app_bank/utils/styles.dart';
 
-import '../Dashboard.dart';
+import '../Pages/Dashboard.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       height: 10.0,
       width: isActive ? 15.0 : 10.0,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : Color(0xFF7B51D3),
+        color: isActive ? Colors.white : Color(0xff0f4c75),
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
     );
@@ -49,10 +49,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               end: Alignment.bottomCenter,
               stops: [0.1, 0.4, 0.7, 0.9],
               colors: [
-                Color(0xFF3594DD),
-                Color(0xFF4563DB),
-                Color(0xFF5036D5),
-                Color(0xFF5B16D0),
+                Color(0xff0f4c75),
+                Color(0xFFbbe1fa),
+                Color(0xFFbbe1fa),
+                Color(0xFF3282b8),
               ],
             ),
           ),
@@ -93,8 +93,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           children: <Widget>[
                             Center(
                               child: Container(
-                                height: MediaQuery.of(context).size.height/3,
-                                width: MediaQuery.of(context).size.width/2,
+                                height: MediaQuery.of(context).size.height / 3,
+                                width: MediaQuery.of(context).size.width / 2,
                                 decoration: BoxDecoration(
                                   borderRadius: (BorderRadius.circular(50)),
                                 ),
@@ -135,8 +135,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           children: <Widget>[
                             Center(
                               child: Container(
-                                height: MediaQuery.of(context).size.height/3,
-                                width: MediaQuery.of(context).size.width/2,
+                                height: MediaQuery.of(context).size.height / 3,
+                                width: MediaQuery.of(context).size.width / 2,
                                 decoration: BoxDecoration(
                                   borderRadius: (BorderRadius.circular(50)),
                                 ),
@@ -177,8 +177,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           children: <Widget>[
                             Center(
                               child: Container(
-                                height: MediaQuery.of(context).size.height/3,
-                                width: MediaQuery.of(context).size.width/2,
+                                height: MediaQuery.of(context).size.height / 3,
+                                width: MediaQuery.of(context).size.width / 2,
                                 decoration: BoxDecoration(
                                   borderRadius: (BorderRadius.circular(50)),
                                 ),
@@ -253,42 +253,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       )
                     : Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomRight,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PhoneAuthGetPhone()));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-
-                            'Get Started',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
+                        child: Align(
+                          alignment: FractionalOffset.bottomRight,
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PhoneAuthGetPhone()));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  'Get Started',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ),
       ),
-
-
-
-
     );
   }
 }

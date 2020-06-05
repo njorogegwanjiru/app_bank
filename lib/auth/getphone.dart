@@ -5,7 +5,7 @@ import 'package:app_bank/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-import '../Dashboard.dart';
+import '../Pages/Dashboard.dart';
 import '../errorPage.dart';
 import '../model/countries.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,13 +31,7 @@ class PhoneAuthGetPhone extends StatefulWidget {
 }
 
 class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
-  /*
-   *  _height & _width:
-   *    will be calculated from the MediaQuery of widget's context
-   *  countries:
-   *    will be a list of Country model, Country model contains name, dialCode, flag and code for various countries
-   *    and below params are all related to StreamBuilder
-   */
+
   double _height, _width, _fixedPadding;
 
   List<Country> countries = [];
@@ -56,6 +50,7 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
   int _selectedCountryIndex = 113;
 
   bool _isCountriesDataFormed = false;
+  bool requested = false;
 
   @override
   void initState() {
@@ -180,20 +175,28 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: _fixedPadding, left: _fixedPadding),
-            child: Text('Select your country', style: Theme.of(context).textTheme.subtitle,),
+            child: Text(
+              'Select your country',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
           ),
 
           Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: _fixedPadding, vertical: 5),
             child: Widgets.selectCountryDropDown(
-                countries[_selectedCountryIndex], showCountries, Theme.of(context).textTheme.subtitle),
+                countries[_selectedCountryIndex],
+                showCountries,
+                Theme.of(context).textTheme.subtitle),
           ),
 
           //  Subtitle for Enter your phone
           Padding(
             padding: EdgeInsets.only(top: 10.0, left: _fixedPadding),
-            child: Text('Enter your phone', style: Theme.of(context).textTheme.subtitle,),
+            child: Text(
+              'Enter your phone',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
           ),
           //  PhoneNumber TextFormFields
           Padding(
@@ -201,8 +204,11 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
                 left: _fixedPadding,
                 right: _fixedPadding,
                 bottom: _fixedPadding),
-            child: Widgets.phoneNumberField(_phoneNumberController,
-                countries[_selectedCountryIndex].dialCode, Theme.of(context).textTheme.subtitle,Theme.of(context).textTheme.subtitle ),
+            child: Widgets.phoneNumberField(
+                _phoneNumberController,
+                countries[_selectedCountryIndex].dialCode,
+                Theme.of(context).textTheme.subtitle,
+                Theme.of(context).textTheme.subtitle),
           ),
 
           Row(
@@ -212,21 +218,24 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
               Flexible(
                 flex: 1,
                 child: Text(
-                   "Your One Time Password will be sent to this mobile number for verification.",
-                          style: Theme.of(context).textTheme.subtitle),
-
+                    "Your One Time Password will be sent to this mobile number for verification.",
+                    style: Theme.of(context).textTheme.subtitle),
               ),
               SizedBox(width: _fixedPadding),
             ],
           ),
 
-          SizedBox(height: MediaQuery.of(context).size.height*0.1),
-          getOutlineButton("SEND OTP", () {
+          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+          getOutlineButton(requested ? "Loading..." : "SEND OTP", () {
+            setState(() {
+              requested = true;
+            });
             final phone =
                 countries[_selectedCountryIndex].dialCode.toString().trim() +
                     _phoneNumberController.text.trim();
 
             loginUser(phone, context);
+
           }, Theme.of(context).textTheme.subtitle),
 //
         ],
@@ -252,7 +261,6 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
         barrierDismissible: false);
   }
 
-
   searchCountries() {
     String query = _searchCountryController.text;
     if (query.length == 0 || query.length == 1) {
@@ -274,7 +282,6 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
 //      print('no countries added');
     }
   }
-
 
   Widget searchAndPickYourCountryHere() => WillPopScope(
         onWillPop: () => Future.value(false),
@@ -329,7 +336,6 @@ class _PhoneAuthGetPhoneState extends State<PhoneAuthGetPhone> {
           ),
         ),
       );
-
 
   void selectThisCountry(Country country) {
     print(country);

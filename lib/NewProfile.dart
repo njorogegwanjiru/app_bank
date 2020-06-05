@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'Dashboard.dart';
+import 'Pages/Dashboard.dart';
 
 class NewProfile extends StatefulWidget {
   @override

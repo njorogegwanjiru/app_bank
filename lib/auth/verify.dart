@@ -1,4 +1,4 @@
-import 'package:app_bank/Dashboard.dart';
+import 'package:app_bank/Pages/Dashboard.dart';
 import 'package:app_bank/errorPage.dart';
 import 'package:app_bank/onBoarding/onboardingscreens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
